@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/BillService/pom.xml" />
+        <option value="$PROJECT_DIR$/ItemService/pom.xml" />
+        <option value="$PROJECT_DIR$/OrderDetails/pom.xml" />
+        <option value="$PROJECT_DIR$/AddressService/pom.xml" />
+        <option value="$PROJECT_DIR$/CategoryService/pom.xml" />
+        <option value="$PROJECT_DIR$/UserMicroservice/pom.xml" />
+        <option value="$PROJECT_DIR$/RestaurantService/pom.xml" />
+        <option value="$PROJECT_DIR$/FoodCart/pom.xml" />
+        <option value="$PROJECT_DIR$/customerService/pom.xml" />
+        <option value="$PROJECT_DIR$/ServiceRegistry/pom.xml" />
+        <option value="$PROJECT_DIR$/LoginService/pom.xml" />
+        <option value="$PROJECT_DIR$/AdminService/pom.xml" />
+        <option value="$PROJECT_DIR$/ApiGateway/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="19" project-jdk-type="JavaSDK" />
+</project>

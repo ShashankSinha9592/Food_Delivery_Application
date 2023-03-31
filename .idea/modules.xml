@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AddressService/AddressService.iml" filepath="$PROJECT_DIR$/AddressService/AddressService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AdminService/AdminService.iml" filepath="$PROJECT_DIR$/AdminService/AdminService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ApiGateway/ApiGateway.iml" filepath="$PROJECT_DIR$/ApiGateway/ApiGateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BillService/BillService.iml" filepath="$PROJECT_DIR$/BillService/BillService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CategoryService/CategoryService.iml" filepath="$PROJECT_DIR$/CategoryService/CategoryService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FoodCart/FoodCart.iml" filepath="$PROJECT_DIR$/FoodCart/FoodCart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/FoodDeliveryMicroserviceApplication.iml" filepath="$PROJECT_DIR$/.idea/FoodDeliveryMicroserviceApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ItemService/ItemService.iml" filepath="$PROJECT_DIR$/ItemService/ItemService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LoginService/LoginService.iml" filepath="$PROJECT_DIR$/LoginService/LoginService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OrderDetails/OrderDetails.iml" filepath="$PROJECT_DIR$/OrderDetails/OrderDetails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RestaurantService/RestaurantService.iml" filepath="$PROJECT_DIR$/RestaurantService/RestaurantService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UserMicroservice/UserMicroService.iml" filepath="$PROJECT_DIR$/UserMicroservice/UserMicroService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customerService/customerService.iml" filepath="$PROJECT_DIR$/customerService/customerService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ServiceRegistry/serviceRegistry.iml" filepath="$PROJECT_DIR$/ServiceRegistry/serviceRegistry.iml" />
+    </modules>
+  </component>
+</project>
