@@ -12,7 +12,8 @@
       <module fileurl="file://$PROJECT_DIR$/ItemService/ItemService.iml" filepath="$PROJECT_DIR$/ItemService/ItemService.iml" />
       <module fileurl="file://$PROJECT_DIR$/LoginService/LoginService.iml" filepath="$PROJECT_DIR$/LoginService/LoginService.iml" />
       <module fileurl="file://$PROJECT_DIR$/OrderDetails/OrderDetails.iml" filepath="$PROJECT_DIR$/OrderDetails/OrderDetails.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RestaurantService/RestaurantService.iml" filepath="$PROJECT_DIR$/RestaurantService/RestaurantService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RestaurantService/Restaurant_Item_Service.iml" filepath="$PROJECT_DIR$/RestaurantService/Restaurant_Item_Service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Restaurant_Item_Service/Restaurant_Service.iml" filepath="$PROJECT_DIR$/Restaurant_Item_Service/Restaurant_Service.iml" />
       <module fileurl="file://$PROJECT_DIR$/UserMicroservice/UserMicroService.iml" filepath="$PROJECT_DIR$/UserMicroservice/UserMicroService.iml" />
       <module fileurl="file://$PROJECT_DIR$/customerService/customerService.iml" filepath="$PROJECT_DIR$/customerService/customerService.iml" />
       <module fileurl="file://$PROJECT_DIR$/ServiceRegistry/serviceRegistry.iml" filepath="$PROJECT_DIR$/ServiceRegistry/serviceRegistry.iml" />

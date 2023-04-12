@@ -1,11 +1,15 @@
 package com.FoodCartService.demo.Service;
 
+import com.FoodCartService.demo.DTO.FoodCartDTO;
 import com.FoodCartService.demo.Model.FoodCart;
 import com.FoodCartService.demo.Model.Item;
 
 public interface FoodCartService {
 
-    public FoodCart addItemToCart(Integer cartId, Item item);
+
+    public FoodCartDTO createCartForUser(FoodCartDTO foodCartDTO);
+
+    public FoodCart addItemToCart(Integer cartId, Integer itemId,Integer restaurantId);
 
     public FoodCart increaseOrReduceQuantityOfItem(Integer cartId, Integer itemId, Integer quantity);
 

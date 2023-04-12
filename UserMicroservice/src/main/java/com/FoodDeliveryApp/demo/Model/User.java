@@ -1,5 +1,6 @@
 package com.FoodDeliveryApp.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,11 +37,11 @@ public class User {
 
     private String mobile;
 
-    @Transient
-    private Address address;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Integer addressId;
 
-    @Transient
-    private FoodCart foodCart;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Integer foodCartId;
 
 
 }

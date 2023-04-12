@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OrderDetailsService {
 
-    public OrderDetails addOrder(OrderDetails orderDetails, Integer restaurantid);
+    public OrderDetails addOrder(OrderDetails orderDetails);
 
     public OrderDetails updateOrder(OrderDetails orderDetails, Integer restaurantId);
 

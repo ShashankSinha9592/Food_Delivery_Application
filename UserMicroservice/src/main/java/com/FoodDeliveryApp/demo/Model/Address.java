@@ -1,5 +1,8 @@
 package com.FoodDeliveryApp.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +33,12 @@ public class Address {
 
     private Integer pinCode;
 
-    private List<Restaurant> restaurants = new ArrayList<>();
-
-    private User user;
+//    @JsonIgnore
+//    @Transient
+//    private Restaurant restaurant;
+//
+//    @JsonIgnore
+//    @Transient
+//    private User user;
 
 }

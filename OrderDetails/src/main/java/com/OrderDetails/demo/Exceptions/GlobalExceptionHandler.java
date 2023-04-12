@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ItemException.class)
-    public ResponseEntity<ErrorDetails> userExceptionHandler(ItemException exc, WebRequest req){
+    @ExceptionHandler(OrderException.class)
+    public ResponseEntity<ErrorDetails> orderExceptionHandler(OrderException exc, WebRequest req){
 
         ErrorDetails errorDetails = new ErrorDetails();
 

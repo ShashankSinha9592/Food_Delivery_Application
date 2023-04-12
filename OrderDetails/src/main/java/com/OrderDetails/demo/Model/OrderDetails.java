@@ -1,6 +1,9 @@
 package com.OrderDetails.demo.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +20,11 @@ import java.util.List;
 @Entity
 public class OrderDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
     private LocalDateTime timeSpan;
-
-    private List<Item> items = new ArrayList<>();
 
     private Integer cartId;
 

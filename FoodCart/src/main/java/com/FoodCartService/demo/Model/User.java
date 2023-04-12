@@ -1,5 +1,6 @@
 package com.FoodCartService.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +39,11 @@ public class User {
     private String mobile;
 
     @Transient
+    @JsonIgnore
     private Address address;
 
     @Transient
+    @JsonIgnore
     private FoodCart foodCart;
 
 

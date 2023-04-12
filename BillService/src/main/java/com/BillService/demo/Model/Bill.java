@@ -22,7 +22,7 @@ public class Bill {
     private LocalDateTime timeSpan;
 
     @Transient
-    private OrderDetails orderDetails;
+    private Integer orderDetailId;
 
     private Integer totalItem;
 

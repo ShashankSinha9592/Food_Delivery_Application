@@ -20,9 +20,7 @@ public class OrderDetails {
 
     private LocalDateTime timeSpan;
 
-    private List<Item> items = new ArrayList<>();
-
-    private Integer cartId;
+    private FoodCart cart;
 
     private String status;
 

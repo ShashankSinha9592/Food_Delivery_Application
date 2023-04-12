@@ -1,5 +1,6 @@
 package com.FoodDeliveryApp.demo.Controller;
 
+import com.FoodDeliveryApp.demo.DTO.UserDTO;
 import com.FoodDeliveryApp.demo.Model.FoodCart;
 import com.FoodDeliveryApp.demo.Model.User;
 import com.FoodDeliveryApp.demo.Service.UserService;
@@ -18,15 +19,15 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User user){
+    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO){
 
         FoodCart foodCart = new FoodCart();
 
-        user.setFoodCart(foodCart);
+        userDTO.setFoodCart(foodCart);
 
-        User registeredUser = userService.registerUser(user);
+        UserDTO registeredUserDTO = userService.registerUser(userDTO);
 
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(registeredUserDTO, HttpStatus.CREATED);
 
     }
 
@@ -58,9 +59,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user){
+    public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO){
 
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.updateUser(userDTO);
 
         return new ResponseEntity<>(updatedUser,HttpStatus.ACCEPTED);
 

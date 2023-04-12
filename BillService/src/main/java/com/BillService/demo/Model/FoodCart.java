@@ -16,8 +16,10 @@ public class FoodCart {
 
     private Integer cartId;
 
-    private Integer userId;
+    private User user;
 
-    private List<OrderDetails> orderDetails = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
+
+    private OrderDetails orderDetails ;
 
 }

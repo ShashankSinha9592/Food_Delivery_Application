@@ -1,4 +1,7 @@
 package com.OrderDetails.demo.Repository;
 
-public interface OrderDetailsRepository {
+import com.OrderDetails.demo.Model.OrderDetails;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderDetailsRepository extends JpaRepository<OrderDetails,Integer> {
 }

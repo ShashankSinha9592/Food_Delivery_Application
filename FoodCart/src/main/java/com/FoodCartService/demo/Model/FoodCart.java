@@ -1,5 +1,6 @@
 package com.FoodCartService.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,9 +21,11 @@ public class FoodCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartId;
 
+    @Column(unique = true, nullable = false)
+    @JsonIgnore
     private Integer userId;
 
-    @Transient
-    private List<OrderDetails> items = new ArrayList<>();
+    @ManyToMany(mappedBy = "foodCart", cascade = CascadeType.ALL)
+    private List<Item> items = new ArrayList<>();
 
 }

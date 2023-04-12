@@ -1,6 +1,7 @@
 package com.FoodCartService.demo.Controller;
 
 
+import com.FoodCartService.demo.DTO.FoodCartDTO;
 import com.FoodCartService.demo.Model.FoodCart;
 import com.FoodCartService.demo.Model.Item;
 import com.FoodCartService.demo.Service.FoodCartService;
@@ -16,10 +17,19 @@ public class FoodCartController {
     @Autowired
     FoodCartService foodCartService;
 
-    @PostMapping("/{foodCartId}")
-    public ResponseEntity<FoodCart> addItemToCart(@PathVariable Integer foodCartId, @RequestBody Item item){
+    @PostMapping
+    public ResponseEntity<FoodCartDTO> registerCart(@RequestBody FoodCartDTO foodCartDTO){
 
-       FoodCart foodCart = foodCartService.addItemToCart(foodCartId,item);
+        FoodCartDTO savedCartDTO = foodCartService.createCartForUser(foodCartDTO);
+
+        return new ResponseEntity<>(savedCartDTO,HttpStatus.CREATED);
+
+    }
+
+    @PostMapping("/{foodCartId}/{restaurantId}/{itemId}")
+    public ResponseEntity<FoodCart> addItemToCart(@PathVariable Integer foodCartId,@PathVariable Integer restaurantId, @PathVariable Integer itemId){
+
+       FoodCart foodCart = foodCartService.addItemToCart(foodCartId,itemId,restaurantId);
 
        return new ResponseEntity<>(foodCart, HttpStatus.CREATED);
 

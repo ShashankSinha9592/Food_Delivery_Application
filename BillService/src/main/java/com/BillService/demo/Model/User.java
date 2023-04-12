@@ -1,5 +1,6 @@
 package com.BillService.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class User {
     @Transient
     private Address address;
 
+    @JsonIgnore
     @Transient
     private FoodCart foodCart;
 

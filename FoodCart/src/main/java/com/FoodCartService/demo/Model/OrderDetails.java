@@ -19,9 +19,7 @@ public class OrderDetails {
 
     private LocalDateTime timeSpan;
 
-    private List<Item> items = new ArrayList<>();
-
-    private Double totalPrice;
+    private FoodCart foodCart;
 
     private String status;
 

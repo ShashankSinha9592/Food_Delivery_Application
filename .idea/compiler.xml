@@ -11,9 +11,10 @@
         <module name="AdminService" />
         <module name="serviceRegistry" />
         <module name="OrderDetails" />
-        <module name="RestaurantService" />
+        <module name="Restaurant_Item_Service" />
         <module name="LoginService" />
         <module name="ApiGateway" />
+        <module name="Restaurant_Service" />
         <module name="UserMicroService" />
         <module name="FoodCart" />
         <module name="AddressService" />
@@ -33,7 +34,8 @@
       <module name="ItemService" target="19" />
       <module name="LoginService" target="17" />
       <module name="OrderDetails" target="19" />
-      <module name="RestaurantService" target="19" />
+      <module name="Restaurant_Item_Service" target="19" />
+      <module name="Restaurant_Service" target="19" />
       <module name="serviceRegistry" target="17" />
       <module name="UserMicroService" target="19" />
     </bytecodeTargetLevel>
@@ -41,14 +43,19 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AddressService" options="-parameters" />
+      <module name="AdminService" options="-parameters" />
+      <module name="ApiGateway" options="-parameters" />
       <module name="BillService" options="-parameters" />
       <module name="CategoryService" options="-parameters" />
       <module name="FoodCart" options="-parameters" />
       <module name="ItemService" options="-parameters" />
+      <module name="LoginService" options="-parameters" />
       <module name="OrderDetails" options="-parameters" />
-      <module name="RestaurantService" options="-parameters" />
+      <module name="Restaurant_Item_Service" options="-parameters" />
+      <module name="Restaurant_Service" options="-parameters" />
       <module name="UserMicroService" options="-parameters" />
       <module name="customerService" options="-parameters" />
+      <module name="serviceRegistry" options="-parameters" />
     </option>
   </component>
 </project>
