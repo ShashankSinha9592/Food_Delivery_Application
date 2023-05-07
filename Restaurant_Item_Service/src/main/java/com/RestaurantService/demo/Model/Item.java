@@ -29,7 +29,7 @@ public class Item {
 
     private Double cost;
 
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany
     @JsonIgnore
     private List<Restaurant> restaurants = new ArrayList<>();
 

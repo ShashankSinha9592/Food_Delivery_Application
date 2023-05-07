@@ -3,6 +3,7 @@ package com.FoodDeliveryApp.demo.DTO;
 import com.FoodDeliveryApp.demo.Model.Address;
 import com.FoodDeliveryApp.demo.Model.FoodCart;
 import com.FoodDeliveryApp.demo.Model.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,9 +41,6 @@ public class UserDTO {
     private String mobile;
 
     private Address address;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private FoodCart foodCart;
 
 
 }

@@ -5,7 +5,7 @@ import com.FoodCartService.demo.Model.Item;
 
 public interface ItemService {
 
-    public ItemDTO addItem(ItemDTO itemDTO);
+    public Item addItem(ItemDTO itemDTO);
 
     public Item getItemFromDTO(ItemDTO itemDTO);
 

@@ -19,7 +19,7 @@ public interface BillService {
 
     public List<BillDTO> viewBillByDate(LocalDateTime startDate , LocalDateTime endDate);
 
-    public Bill viewBillOfUser(Integer userId);
+    public List<BillDTO> viewBillOfUser(Integer userId);
 
     public Double calculateBill(Bill bill);
 

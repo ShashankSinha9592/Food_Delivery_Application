@@ -13,7 +13,7 @@ public interface UserService {
 
     public User removeUser(Integer userId);
 
-    public User viewUser(Integer userId);
+    public UserDTO viewUser(Integer userId);
 
     public List<User> viewAllUser();
 

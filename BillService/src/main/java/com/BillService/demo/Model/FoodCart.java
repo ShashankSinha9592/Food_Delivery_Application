@@ -1,5 +1,6 @@
 package com.BillService.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,8 @@ public class FoodCart {
 
     private Integer cartId;
 
-    private User user;
+    private Integer userId;
 
     private List<Item> items = new ArrayList<>();
-
-    private OrderDetails orderDetails ;
 
 }

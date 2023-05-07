@@ -31,21 +31,4 @@ public class ItemsInRestaurantDTO {
 
     private Restaurant restaurant;
 
-//    @Id
-//    private Integer itemId;
-//
-//    private String itemName;
-//
-//    @Embedded
-//    private Category category;
-//
-//    private Integer quantity;
-//
-//    private Double cost;
-//
-//    private Restaurant restaurant;
-//
-//    @ManyToMany
-//    @JsonIgnore
-//    private List<FoodCart> foodCarts = new ArrayList<>();
 }

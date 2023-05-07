@@ -17,7 +17,11 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Item {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer cartItemId;
+
     private Integer itemId;
 
     private String itemName;
@@ -31,8 +35,8 @@ public class Item {
 
     private Integer restaurantId ;
 
-    @ManyToMany
+    @ManyToOne
     @JsonIgnore
-    private List<FoodCart> foodCarts = new ArrayList<>();
+    private FoodCart foodCart;
 
 }

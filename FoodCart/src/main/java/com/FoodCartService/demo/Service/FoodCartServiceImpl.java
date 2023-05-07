@@ -9,6 +9,7 @@ import com.FoodCartService.demo.Model.Item;
 import com.FoodCartService.demo.Model.Restaurant;
 import com.FoodCartService.demo.Repository.FoodCartRepository;
 import com.FoodCartService.demo.Repository.ItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class FoodCartServiceImpl implements FoodCartService{
 
     @Autowired
@@ -30,7 +32,7 @@ public class FoodCartServiceImpl implements FoodCartService{
     ItemService itemService;
 
     @Autowired
-    RestTemplate restTemplate;
+    RestaurantService restaurantService;
 
     @Override
     public FoodCartDTO createCartForUser(FoodCartDTO foodCartDTO){
@@ -45,44 +47,68 @@ public class FoodCartServiceImpl implements FoodCartService{
 
     }
 
+    public FoodCartDTO removeCart(Integer cartId){
+
+        FoodCart foodCart = foodCartRepository.findById(cartId).orElseThrow(()-> new CartException("Innvalid cart id : "+cartId));
+
+        foodCartRepository.delete(foodCart);
+
+        return getCartDTOFromCart(foodCart);
+
+    }
+
+    @Override
+    public FoodCartDTO viewCart(Integer cartId) {
+
+        FoodCart foodCart = foodCartRepository.findById(cartId).orElseThrow(()-> new CartException("Invalid cart id : "+cartId));
+
+        return getCartDTOFromCart(foodCart);
+
+    }
+
+    @Override
+    public FoodCart getCartOfUser(Integer userId) {
+
+        return foodCartRepository.findByUserId(userId).orElseThrow(()-> new CartException("Invalid user id : "+userId));
+
+    }
+
     @Override
     public FoodCart addItemToCart(Integer cartId, Integer itemId, Integer restaurantId) {
 
         FoodCart foodCart = validateCart(cartId);
 
+        System.out.println("1");
         List<Item> items = foodCart.getItems();
 
-       Boolean isPresent = items.stream().anyMatch((i)-> i.getItemId()== itemId);
+        System.out.println("2");
 
-        if(isPresent){
-            throw new CartException("Item already present in the cart");
-        }
+        System.out.println(3);
+       Boolean isPresent = items.stream().anyMatch((item)-> item.getItemId()== itemId);
+        System.out.println("3");
+        if(isPresent) throw new CartException("Item already present in the cart");
 
-        Restaurant restaurant = restTemplate.getForObject("http://RESTAURANT-SERVICE/fooddelivery/restaurant"+restaurantId, Restaurant.class);
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
 
-        if(restaurant==null){
-            throw new RestaurantException("Restaurant does not exists with restaurant id : "+restaurantId);
-        }
+        if(restaurant==null) throw new RestaurantException("Restaurant does not exists with restaurant id : "+restaurantId);
 
         List<ItemDTO> restaurantItems = restaurant.getItems();
 
         Optional<ItemDTO> itemOpt = restaurantItems.stream().filter((el)-> el.getItemId()==itemId).findAny();
 
-        if(itemOpt.isPresent()) throw new RestaurantException("item does not exists in this restaurant");
-
+        if(itemOpt.isEmpty()) throw new RestaurantException("item does not exists in this restaurant");
+        System.out.println("4");
         ItemDTO itemDTO = itemOpt.get();
 
         itemDTO.setRestaurant(restaurant);
 
-        itemDTO.getFoodCarts().add(foodCart);
+        itemDTO.setFoodCart(foodCart);
 
-        Item item = itemService.getItemFromDTO(itemDTO);
-
-        foodCart.getItems().add(item);
+        Item savedItem = itemService.addItem(itemDTO);
+        System.out.println("5");
+        foodCart.getItems().add(savedItem);
 
         return foodCartRepository.save(foodCart);
-
-
 
     }
 
@@ -103,19 +129,17 @@ public class FoodCartServiceImpl implements FoodCartService{
 
         itemRepository.save(savedItem);
 
-        return validateCart(cartId);
+        return foodCart;
     }
 
     @Override
-    public FoodCart removeItemFromCart(Integer cartId, Integer itemId) {
+    public Item removeItemFromCart(Integer cartItemId) {
 
-        FoodCart validatedCart = validateCart(cartId);
+        Item itemToRemove = itemService.validateItem(cartItemId);
 
-        itemService.validateItem(itemId);
+        itemRepository.delete(itemToRemove);
 
-        itemService.removeItem(itemId, cartId);
-
-        return validateCart(cartId);
+        return itemToRemove;
 
     }
 
@@ -124,7 +148,10 @@ public class FoodCartServiceImpl implements FoodCartService{
 
         FoodCart validatedCart = validateCart(cartId);
 
-        itemRepository.clearCart(cartId);
+//        itemRepository.clearCart(cartId);
+        List<Item> items = validatedCart.getItems();
+
+        items.forEach((item)-> itemRepository.delete(item));
 
         return validateCart(cartId);
 
@@ -138,7 +165,7 @@ public class FoodCartServiceImpl implements FoodCartService{
 
         FoodCart foodCart = new FoodCart();
 
-        foodCart.setUserId(foodCartDTO.getUser().getUserId());
+        foodCart.setUserId(foodCartDTO.getUserId());
 
         foodCart.setItems(foodCartDTO.getItems());
 
@@ -149,19 +176,20 @@ public class FoodCartServiceImpl implements FoodCartService{
 
     }
 
-    private FoodCart getCartDTOFromCart(FoodCartDTO foodCartDTO){
+    private FoodCartDTO getCartDTOFromCart(FoodCart foodCart){
 
-        FoodCart foodCart = new FoodCart();
+        FoodCartDTO foodCartDTO = new FoodCartDTO();
 
-        foodCart.setUserId(foodCartDTO.getUser().getUserId());
+        foodCartDTO.setUserId(foodCart.getUserId());
 
-        foodCart.setItems(foodCartDTO.getItems());
+        foodCartDTO.setItems(foodCart.getItems());
 
-        foodCart.setCartId(foodCartDTO.getCartId());
+        foodCartDTO.setCartId(foodCart.getCartId());
 
-        return foodCart;
+        return foodCartDTO;
 
 
     }
+
 
 }

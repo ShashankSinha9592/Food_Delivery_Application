@@ -1,5 +1,6 @@
 package com.FoodDeliveryApp.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class FoodCart {
 
     private Integer cartId;
 
+    @JsonIgnore
     private User user;
 
     private List<Item> items = new ArrayList<>();

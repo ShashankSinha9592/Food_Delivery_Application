@@ -1,5 +1,6 @@
 package com.OrderDetails.demo.Controller;
 
+import com.OrderDetails.demo.DTO.OrderDetailsDTO;
 import com.OrderDetails.demo.Model.OrderDetails;
 import com.OrderDetails.demo.Service.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +17,26 @@ public class OrderDetailsController {
     @Autowired
     OrderDetailsService orderDetailsService;
 
-    @PostMapping("/{restaurantid}")
-    public ResponseEntity<OrderDetails> addOrder(OrderDetails orderDetails, Integer restaurantid){
+    @PostMapping("/{cartId}")
+    public ResponseEntity<OrderDetails> addOrder( @PathVariable Integer cartId){
 
-        OrderDetails savedOrder = orderDetailsService.addOrder(orderDetails,restaurantid);
+        OrderDetails savedOrder = orderDetailsService.addOrder(cartId);
 
         return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/{restaurantId}")
-    public ResponseEntity<OrderDetails> updateOrder(OrderDetails orderDetails, Integer restaurantId){
+    @PutMapping
+    public ResponseEntity<OrderDetails> updateOrder(@RequestBody OrderDetails orderDetails){
 
-        OrderDetails updatedOrder = orderDetailsService.updateOrder(orderDetails,restaurantId);
+        OrderDetails updatedOrder = orderDetailsService.updateOrder(orderDetails);
 
         return new ResponseEntity<>(updatedOrder,HttpStatus.ACCEPTED);
 
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<OrderDetails> removeOrder(Integer orderId){
+    public ResponseEntity<OrderDetails> removeOrder(@PathVariable Integer orderId){
 
         OrderDetails removedOrder = orderDetailsService.removeOrder(orderId);
 
@@ -44,28 +45,28 @@ public class OrderDetailsController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetails> viewOrder(Integer orderId){
+    public ResponseEntity<OrderDetailsDTO> viewOrder(@PathVariable Integer orderId){
 
-        OrderDetails orderDetails = orderDetailsService.viewOrder(orderId);
+        OrderDetailsDTO orderDetailsdto = orderDetailsService.viewOrder(orderId);
 
-        return new ResponseEntity<>(orderDetails,HttpStatus.OK);
-
-    }
-
-    @GetMapping("/ordersofarestaurant/{restaurantId}")
-    public ResponseEntity<List<OrderDetails>> viewOrderOfRestaurant(Integer restaurantId){
-
-        List<OrderDetails> orderDetails = orderDetailsService.viewOrderOfRestaurant(restaurantId);
-
-        return new ResponseEntity<>(orderDetails,HttpStatus.OK);
+        return new ResponseEntity<>(orderDetailsdto,HttpStatus.OK);
 
     }
-    @GetMapping("/ordersofacustomer/{userId}")
-    public ResponseEntity<List<OrderDetails>> viewOrderOfCustomer(Integer userId){
 
-        List<OrderDetails> orderDetails = orderDetailsService.viewOrderOfCustomer(userId);
+//    @GetMapping("/ordersofarestaurant/{restaurantId}")
+//    public ResponseEntity<List<OrderDetails>> viewOrderOfRestaurant(Integer restaurantId){
+//
+//        List<OrderDetails> orderDetails = orderDetailsService.viewOrderOfRestaurant(restaurantId);
+//
+//        return new ResponseEntity<>(orderDetails,HttpStatus.OK);
+//
+//    }
+    @GetMapping("/ordersofacustomer/{cartId}")
+    public ResponseEntity<List<OrderDetailsDTO>> viewOrderOfCustomer(@PathVariable Integer cartId){
 
-        return new ResponseEntity<>(orderDetails,HttpStatus.OK);
+        List<OrderDetailsDTO> orderDetailsDTO = orderDetailsService.viewOrderOfCustomer(cartId);
+
+        return new ResponseEntity<>(orderDetailsDTO,HttpStatus.OK);
     }
 
 }

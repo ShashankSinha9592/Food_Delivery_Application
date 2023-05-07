@@ -4,7 +4,9 @@ import com.AddressService.demo.Exceptions.AddressException;
 import com.AddressService.demo.Model.Address;
 import com.AddressService.demo.Repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AddressServiceImpl implements AddressService{
 
     @Autowired

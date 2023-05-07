@@ -20,8 +20,7 @@ public class FoodCartDTO {
 
     private Integer cartId;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
+    private Integer userId;
 
     private List<Item> items = new ArrayList<>();
 

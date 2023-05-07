@@ -11,11 +11,13 @@ import com.RestaurantService.demo.Model.Restaurant;
 import com.RestaurantService.demo.Repository.ItemRepository;
 import com.RestaurantService.demo.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class RestaurantServiceImpl implements RestaurantService{
 
     @Autowired
@@ -114,7 +116,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 
         itemRepository.findById(itemId).orElseThrow(()-> new ItemException("Invalid item id : "+itemId));
 
-        List<RestaurantsInItemDTO> restaurants = restaurantRepository.getRestaurantsByItem(itemId);
+        List<RestaurantsInItemDTO> restaurants = new ArrayList<>(); // restaurantRepository.getRestaurantsByItem(itemId);
 
         if(restaurants.isEmpty()) throw new RestaurantException("No restaurant found");
 
@@ -140,6 +142,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     private RestaurantsInItemDTO getDTOFromRestaurant(Restaurant restaurant){
+
         RestaurantsInItemDTO savedRestaurantDTO = new RestaurantsInItemDTO();
 
         savedRestaurantDTO.setRestaurantId(restaurant.getRestaurantId());

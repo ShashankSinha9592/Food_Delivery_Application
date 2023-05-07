@@ -1,5 +1,6 @@
 package com.RestaurantService.demo.Controller;
 
+import com.RestaurantService.demo.DTO.ItemsInRestaurantDTO;
 import com.RestaurantService.demo.Model.Item;
 import com.RestaurantService.demo.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,36 +18,36 @@ public class ItemController {
     ItemService itemService;
 
     @PostMapping
-    public ResponseEntity<Item> addItem(@RequestBody Item item){
+    public ResponseEntity<ItemsInRestaurantDTO> addItem(@RequestBody Item item){
 
-        Item addedItem = itemService.addItem(item);
+        ItemsInRestaurantDTO addedItem = itemService.addItem(item);
 
         return new ResponseEntity<>(addedItem, HttpStatus.CREATED);
 
     }
 
     @PutMapping
-    public ResponseEntity<Item> updateItem(@RequestBody Item item){
+    public ResponseEntity<ItemsInRestaurantDTO> updateItem(@RequestBody Item item){
 
-        Item updatedItem = itemService.updateItem(item);
+        ItemsInRestaurantDTO updatedItem = itemService.updateItem(item);
 
         return new ResponseEntity<>(updatedItem,HttpStatus.ACCEPTED);
 
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Item> removeItem(@PathVariable Integer itemId){
+    public ResponseEntity<Boolean> removeItem(@PathVariable Integer itemId){
 
-        Item removedItem = itemService.removeItem(itemId);
+        boolean removedItem = itemService.removeItem(itemId);
 
         return new ResponseEntity<>(removedItem,HttpStatus.OK);
 
     }
 
     @GetMapping("/{itemId}")
-    public ResponseEntity<Item> viewItemById(Integer itemId){
+    public ResponseEntity<ItemsInRestaurantDTO> viewItemById(Integer itemId){
 
-        Item item = itemService.viewItem(itemId);
+        ItemsInRestaurantDTO item = itemService.viewItem(itemId);
 
         return new ResponseEntity<>(item,HttpStatus.OK);
 
@@ -62,9 +63,9 @@ public class ItemController {
     }
 
     @GetMapping("/itembyrestaurant/{restaurantId}")
-    public ResponseEntity<List<Item>> viewItemByRestaurant(Integer restaurantId){
+    public ResponseEntity<List<ItemsInRestaurantDTO>> viewItemByRestaurant(Integer restaurantId){
 
-        List<Item> items = itemService.viewItemsByRestaurant(restaurantId);
+        List<ItemsInRestaurantDTO> items = itemService.viewItemsByRestaurant(restaurantId);
 
         return new ResponseEntity<>(items,HttpStatus.OK);
 

@@ -22,7 +22,5 @@ public class Category {
 
     private String categoryName;
 
-    @Transient
-    private List<Item> items = new ArrayList<>();
 
 }

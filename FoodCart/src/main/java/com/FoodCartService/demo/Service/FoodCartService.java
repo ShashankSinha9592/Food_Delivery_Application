@@ -9,11 +9,16 @@ public interface FoodCartService {
 
     public FoodCartDTO createCartForUser(FoodCartDTO foodCartDTO);
 
+    public FoodCartDTO viewCart(Integer cartId);
+
+    public FoodCartDTO removeCart(Integer cartId);
+    public FoodCart getCartOfUser(Integer userId);
+
     public FoodCart addItemToCart(Integer cartId, Integer itemId,Integer restaurantId);
 
     public FoodCart increaseOrReduceQuantityOfItem(Integer cartId, Integer itemId, Integer quantity);
 
-    public FoodCart removeItemFromCart(Integer cartId, Integer itemId);
+    public Item removeItemFromCart(Integer cartItemId);
 
     public FoodCart clearCart(Integer cartId);
 

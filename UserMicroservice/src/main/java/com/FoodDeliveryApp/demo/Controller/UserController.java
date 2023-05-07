@@ -21,10 +21,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO){
 
-        FoodCart foodCart = new FoodCart();
-
-        userDTO.setFoodCart(foodCart);
-
         UserDTO registeredUserDTO = userService.registerUser(userDTO);
 
         return new ResponseEntity<>(registeredUserDTO, HttpStatus.CREATED);
@@ -32,11 +28,11 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer userId){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer userId){
 
-        User user = userService.viewUser(userId);
+        UserDTO userDTO = userService.viewUser(userId);
 
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
 
     }
 
@@ -50,7 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<User> removeUser(Integer userId){
+    public ResponseEntity<User> removeUser(@PathVariable Integer userId){
 
         User user = userService.removeUser(userId);
 

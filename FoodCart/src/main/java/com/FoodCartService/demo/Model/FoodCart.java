@@ -22,10 +22,9 @@ public class FoodCart {
     private Integer cartId;
 
     @Column(unique = true, nullable = false)
-    @JsonIgnore
     private Integer userId;
 
-    @ManyToMany(mappedBy = "foodCart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "foodCart", cascade = CascadeType.REMOVE)
     private List<Item> items = new ArrayList<>();
 
 }

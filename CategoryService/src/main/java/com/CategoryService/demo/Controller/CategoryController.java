@@ -17,7 +17,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Category> addCategory(Category category){
+    public ResponseEntity<Category> addCategory(@RequestBody Category category){
 
         Category savedCategory = categoryService.addCategory(category);
 
@@ -26,7 +26,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<Category> updateCategory(Category category){
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category){
 
         Category updatedCategory = categoryService.updateCategory(category);
 
@@ -35,7 +35,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Category> removeCategory(Integer categoryId){
+    public ResponseEntity<Category> removeCategory(@PathVariable Integer categoryId){
 
         Category removedCategory = categoryService.removeCategory(categoryId);
 
@@ -44,7 +44,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> viewCategory(Integer categoryId){
+    public ResponseEntity<Category> viewCategory(@PathVariable Integer categoryId){
 
         Category category = categoryService.viewCategory(categoryId);
 

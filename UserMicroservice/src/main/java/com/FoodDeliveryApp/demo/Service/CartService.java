@@ -1,11 +1,18 @@
 package com.FoodDeliveryApp.demo.Service;
 
+import com.FoodDeliveryApp.demo.DTO.FoodCartDTO;
 import com.FoodDeliveryApp.demo.Model.FoodCart;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
+@FeignClient(name = "FOODCART-SERVICE")
 public interface CartService {
 
-    public FoodCart saveFoodCart(FoodCart foodCart);
+    @PostMapping("/fooddelivery/foodcart")
+    public FoodCartDTO saveFoodCart(@RequestBody FoodCartDTO foodCartDTO);
 
-    public FoodCart getFoodCart(Integer cartId);
+    @DeleteMapping("/fooddelivery/foodcart/{cartId}")
+    public FoodCartDTO removeCart(@PathVariable Integer cartId);
 
 }

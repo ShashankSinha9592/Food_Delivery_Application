@@ -4,7 +4,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/BillService/pom.xml" />
-        <option value="$PROJECT_DIR$/ItemService/pom.xml" />
         <option value="$PROJECT_DIR$/OrderDetails/pom.xml" />
         <option value="$PROJECT_DIR$/AddressService/pom.xml" />
         <option value="$PROJECT_DIR$/CategoryService/pom.xml" />

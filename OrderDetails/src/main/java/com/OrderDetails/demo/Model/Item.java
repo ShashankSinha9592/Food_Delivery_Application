@@ -26,6 +26,6 @@ public class Item {
 
     private Double cost;
 
-    private Restaurant restaurant;
+    private Integer restaurantId;
 
 }

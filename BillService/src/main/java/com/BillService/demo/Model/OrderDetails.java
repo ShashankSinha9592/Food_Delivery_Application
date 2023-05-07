@@ -20,7 +20,7 @@ public class OrderDetails {
 
     private LocalDateTime timeSpan;
 
-    private FoodCart cart;
+    private FoodCart foodCart;
 
     private String status;
 

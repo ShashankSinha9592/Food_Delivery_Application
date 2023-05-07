@@ -35,6 +35,30 @@ public class FoodCartController {
 
     }
 
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<FoodCartDTO> deleteCart(@PathVariable Integer cartId){
+
+        FoodCartDTO savedCartDTO = foodCartService.removeCart(cartId);
+
+        return new ResponseEntity<>(savedCartDTO,HttpStatus.OK);
+
+    }
+    @GetMapping("/{cartId}") //done
+    public ResponseEntity<FoodCartDTO> viewCart(@PathVariable Integer cartId){
+
+        FoodCartDTO savedCartDTO = foodCartService.viewCart(cartId);
+
+        return new ResponseEntity<>(savedCartDTO,HttpStatus.OK);
+
+    }
+    @GetMapping("cartbyuser/{userId}")
+    public ResponseEntity<FoodCart> viewCartOfUser(@PathVariable Integer userId){
+
+        FoodCart savedCart = foodCartService.getCartOfUser(userId);
+
+        return new ResponseEntity<>(savedCart,HttpStatus.OK);
+
+    }
     @PatchMapping("/{cartId}/{itemId}/{quantity}")
     public ResponseEntity<FoodCart> increaseOrReduceQuantityOfItem(@PathVariable Integer cartId, @PathVariable Integer itemId, @PathVariable Integer quantity){
 
@@ -44,16 +68,16 @@ public class FoodCartController {
 
     }
 
-    @DeleteMapping("/{cartId}/{itemId}")
-    public ResponseEntity<FoodCart> removeItemFromCart(@PathVariable Integer cartId, @PathVariable Integer itemId){
+    @DeleteMapping("/cartitem/{cartItemId}")
+    public ResponseEntity<Item> removeItemFromCart(@PathVariable Integer cartItemId){
 
-        FoodCart foodCart = foodCartService.removeItemFromCart(cartId,itemId);
+        Item item = foodCartService.removeItemFromCart(cartItemId);
 
-        return new ResponseEntity<>(foodCart,HttpStatus.OK);
+        return new ResponseEntity<>(item,HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/{cartId}")
+    @DeleteMapping("/cart/{cartId}")
     public ResponseEntity<FoodCart> clearCart(@PathVariable Integer cartId){
 
         FoodCart foodCart = foodCartService.clearCart(cartId);

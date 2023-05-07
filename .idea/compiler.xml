@@ -19,7 +19,6 @@
         <module name="FoodCart" />
         <module name="AddressService" />
         <module name="customerService" />
-        <module name="ItemService" />
         <module name="CategoryService" />
       </profile>
     </annotationProcessing>

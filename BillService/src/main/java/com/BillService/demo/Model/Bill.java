@@ -1,5 +1,6 @@
 package com.BillService.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,12 +20,14 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer billId;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime timeSpan;
 
-    @Transient
     private Integer orderDetailId;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer totalItem;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Double totalCost;
 }

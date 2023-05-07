@@ -21,8 +21,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class ItemDTO {
+
+    private Integer cartItemId;
 
     private Integer itemId;
 
@@ -37,6 +38,6 @@ public class ItemDTO {
     private Restaurant restaurant;
 
     @JsonIgnore
-    private List<FoodCart> foodCarts = new ArrayList<>();
+    private FoodCart foodCart ;
 
 }

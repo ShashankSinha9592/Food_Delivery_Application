@@ -4,14 +4,20 @@ import com.RestaurantService.demo.DTO.ItemDTO;
 import com.RestaurantService.demo.DTO.ItemsInRestaurantDTO;
 import com.RestaurantService.demo.DTO.RestaurantDTO;
 import com.RestaurantService.demo.Exceptions.ItemException;
+import com.RestaurantService.demo.Exceptions.RestaurantException;
 import com.RestaurantService.demo.Model.Category;
 import com.RestaurantService.demo.Model.Item;
+import com.RestaurantService.demo.Model.Restaurant;
 import com.RestaurantService.demo.Repository.ItemRepository;
+import com.RestaurantService.demo.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ItemServiceImpl implements ItemService{
 
     @Autowired
@@ -21,7 +27,7 @@ public class ItemServiceImpl implements ItemService{
     RestTemplate restTemplate;
 
     @Autowired
-    RestaurantService restaurantService;
+    RestaurantRepository restaurantRepository;
 
     @Override
     public ItemsInRestaurantDTO addItem(Item item) {
@@ -84,9 +90,9 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public List<ItemsInRestaurantDTO> viewItemsByRestaurant(Integer restaurantId) {
 
-        restaurantService.viewRestaurant(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(()-> new RestaurantException("Invalid restaurant id : "+restaurantId));
 
-        List<ItemsInRestaurantDTO> items = itemRepository.getItemsInRestaurantById(restaurantId);
+        List<ItemsInRestaurantDTO> items =  new ArrayList<>(); //itemRepository.getItemsInRestaurantById(restaurantId);
 
         if(items.isEmpty()) throw new ItemException("No Items found");
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
 
-    @Query("SELECT new RestaurantsInItemDTO(r.restaurantId, r.restaurantName, r.managerName, r.contact) from Restaurant r INNER JOIN r.items i where i.itemId = :itemId")
-    public List<RestaurantsInItemDTO> getRestaurantsByItem(@Param("itemId") Integer itemId);
+//    @Query("SELECT new RestaurantsInItemDTO(r.restaurantId, r.restaurantName, r.managerName, r.contact) from Restaurant r INNER JOIN r.items i where i.itemId = :itemId")
+//    public List<RestaurantsInItemDTO> getRestaurantsByItem(@Param("itemId") Integer itemId);
 
 }

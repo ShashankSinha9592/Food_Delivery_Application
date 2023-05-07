@@ -4,6 +4,7 @@ import com.BillService.demo.DTO.BillDTO;
 import com.BillService.demo.Exceptions.BillException;
 import com.BillService.demo.Exceptions.OrderException;
 import com.BillService.demo.Model.Bill;
+import com.BillService.demo.Model.FoodCart;
 import com.BillService.demo.Model.Item;
 import com.BillService.demo.Model.OrderDetails;
 import com.BillService.demo.Repository.BillRepository;
@@ -24,8 +25,13 @@ public class BillServiceImpl implements BillService{
     @Autowired
     BillRepository billRepository;
 
+    @Autowired
+    CartService cartService;
+
     @Override
     public BillDTO addBill(Bill bill) {
+
+
 
         Bill savedBill = billRepository.save(bill);
 
@@ -81,8 +87,28 @@ public class BillServiceImpl implements BillService{
     }
 
     @Override
-    public Bill viewBillOfUser(Integer userId) {
-        return null;
+    public List<BillDTO> viewBillOfUser(Integer userId) {
+
+        FoodCart foodCart = cartService.getFoodCartByUserId(userId);
+
+        if(foodCart==null) throw new RuntimeException("Invalid user id : "+userId);
+
+        List<OrderDetails> orderDetails = orderDetailService.getOrderByCartId(foodCart.getCartId());
+
+        if(orderDetails.isEmpty()) throw new BillException("Orders not found");
+
+        List<BillDTO> bills = new ArrayList<>();
+
+        orderDetails.stream().forEach((el)->{
+
+            Bill bill = billRepository.findByOrderDetailId(el.getOrderId()).orElseThrow(()-> new BillException("Invalid order id "+el.getOrderId()));
+
+            bills.add(convertBillDTO(bill));
+
+        });
+
+        return bills;
+
     }
 
     @Override
@@ -95,9 +121,12 @@ public class BillServiceImpl implements BillService{
         BillDTO billDTO = new BillDTO();
 
         billDTO.setBillId(bill.getBillId());
+
         billDTO.setTimeSpan(bill.getTimeSpan());
 
         OrderDetails orderDetails = orderDetailService.getOrderDetails(bill.getOrderDetailId());
+
+        if(orderDetails==null) throw new OrderException("No order found");
 
         if(orderDetails==null){
             throw new OrderException("Order does not exists with order id : "+bill.getOrderDetailId());
@@ -107,7 +136,7 @@ public class BillServiceImpl implements BillService{
 
         billDTO.setTotalCost(getTotalCost(orderDetails));
 
-        billDTO.setTotalItem(orderDetails.getCart().getItems().size());
+        billDTO.setTotalItem(orderDetails.getFoodCart().getItems().size());
 
         return billDTO;
 
@@ -115,10 +144,9 @@ public class BillServiceImpl implements BillService{
 
     }
 
-
     private Double getTotalCost(OrderDetails orderDetails){
 
-        List<Item> items = orderDetails.getCart().getItems();
+        List<Item> items = orderDetails.getFoodCart().getItems();
 
         Double totalCost=0d;
 
@@ -130,6 +158,5 @@ public class BillServiceImpl implements BillService{
 
 
     }
-
 
 }
