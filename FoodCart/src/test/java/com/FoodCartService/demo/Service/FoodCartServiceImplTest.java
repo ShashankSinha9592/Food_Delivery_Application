@@ -82,6 +82,7 @@ class FoodCartServiceImplTest {
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setItemId(1);
         restaurant.getItems().add(itemDTO);
+        itemDTO.setRestaurant(restaurant);
 
         Mockito.when(restaurantService.getRestaurant(1)).thenReturn(restaurant);
 

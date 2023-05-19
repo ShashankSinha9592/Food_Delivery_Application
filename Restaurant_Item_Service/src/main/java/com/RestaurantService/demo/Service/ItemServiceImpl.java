@@ -2,7 +2,6 @@ package com.RestaurantService.demo.Service;
 
 import com.RestaurantService.demo.DTO.ItemDTO;
 import com.RestaurantService.demo.DTO.ItemsInRestaurantDTO;
-import com.RestaurantService.demo.DTO.RestaurantDTO;
 import com.RestaurantService.demo.Exceptions.ItemException;
 import com.RestaurantService.demo.Exceptions.RestaurantException;
 import com.RestaurantService.demo.Model.Category;
@@ -12,7 +11,6 @@ import com.RestaurantService.demo.Repository.ItemRepository;
 import com.RestaurantService.demo.Repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +22,29 @@ public class ItemServiceImpl implements ItemService{
     ItemRepository itemRepository;
 
     @Autowired
-    RestTemplate restTemplate;
+    CategoryService categoryService;
 
     @Autowired
     RestaurantRepository restaurantRepository;
 
     @Override
-    public ItemsInRestaurantDTO addItem(Item item) {
+    public ItemsInRestaurantDTO addItem(ItemDTO itemDTO) {
+
+        Category category = categoryService.getCategoryByName(itemDTO.getCategoryName());
+
+        if(category==null) throw new RuntimeException("Category does not exists with name : "+itemDTO.getCategoryName());
+
+        Item item = new Item();
+
+        item.setItemName(itemDTO.getItemName());
+        item.setCost(itemDTO.getCost());
+        item.setCategoryId(category.getCategoryId());
 
         Item savedItem = itemRepository.save(item);
 
-        ItemsInRestaurantDTO itemDTO = getDtoFromItem(savedItem);
+        ItemsInRestaurantDTO savedItemDTO = getDtoFromItem(savedItem);
 
-        return itemDTO;
+        return savedItemDTO;
 
     }
 
@@ -75,7 +83,7 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public List<Item> viewItemsByCategory(String categoryName) {
 
-        Category category = restTemplate.getForObject("http://CATEGORY-SERVICE/name/"+categoryName, Category.class);
+        Category category = categoryService.getCategoryByName(categoryName);
 
         if(category==null) throw new RuntimeException("Category does not exists with name :"+categoryName);
 
@@ -114,15 +122,13 @@ public class ItemServiceImpl implements ItemService{
 
         itemDTO.setCategory(category);
 
-//        itemDTO.setRestaurant();
-
         return itemDTO;
 
     }
 
     private Category validateCategory(Integer categoryId){
 
-        Category category = restTemplate.getForObject("http://CATEGORY-SERVICE/fooddelivery/category"+categoryId, Category.class);
+        Category category = categoryService.getCategoryById(categoryId);
 
         if(category==null) throw new RuntimeException("Category does not exists with id : "+categoryId);
 

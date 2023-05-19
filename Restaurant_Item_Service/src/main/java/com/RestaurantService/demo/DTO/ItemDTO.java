@@ -22,10 +22,8 @@ public class ItemDTO {
 
     private String itemName;
 
-    private Category category;
+    private String categoryName;
 
     private Double cost;
-
-    private List<RestaurantsInItemDTO> restaurants = new ArrayList<>();
 
 }

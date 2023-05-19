@@ -46,11 +46,22 @@ public class CategoryController {
     @GetMapping("/{categoryId}")
     public ResponseEntity<Category> viewCategory(@PathVariable Integer categoryId){
 
-        Category category = categoryService.viewCategory(categoryId);
+        Category category = categoryService.viewCategoryById(categoryId);
 
         return new ResponseEntity<>(category,HttpStatus.OK);
 
     }
+
+    @GetMapping("/name/{categoryName}")
+    public ResponseEntity<Category> viewCategoryByName(@PathVariable String categoryName){
+
+        Category category = categoryService.viewCategoryByName(categoryName);
+
+        return new ResponseEntity<>(category,HttpStatus.OK);
+
+    }
+
+
 
     @GetMapping
     public ResponseEntity<List<Category>> viewAllCategory(){

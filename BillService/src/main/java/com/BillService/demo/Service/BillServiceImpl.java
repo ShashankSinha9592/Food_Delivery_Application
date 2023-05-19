@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BillServiceImpl implements BillService{
+public class  BillServiceImpl implements BillService{
 
     @Autowired
     OrderDetailService orderDetailService;
@@ -31,7 +31,13 @@ public class BillServiceImpl implements BillService{
     @Override
     public BillDTO addBill(Bill bill) {
 
+        OrderDetails orderDetails = orderDetailService.getOrderDetails(bill.getOrderDetailId());
 
+        if(orderDetails==null) throw new OrderException("Invalid order id : "+bill.getOrderDetailId());
+
+        bill.setTotalCost(getTotalCost(orderDetails.getFoodCart().getItems()));
+        bill.setTotalItem(getTotalItem(orderDetails.getFoodCart().getItems()));
+        bill.setTimeSpan(LocalDateTime.now());
 
         Bill savedBill = billRepository.save(bill);
 
@@ -53,7 +59,19 @@ public class BillServiceImpl implements BillService{
     @Override
     public Bill updateBill(Bill bill) {
 
-        Bill savedBill = billRepository.findById(bill.getBillId()).orElseThrow(()-> new BillException("Bill does not exists with bill id : "+bill.getBillId()));
+        Bill availableBill = billRepository.findById(bill.getBillId()).orElseThrow(()-> new BillException("Bill does not exists with bill id : "+bill.getBillId()));
+
+        if(availableBill.getOrderDetailId().equals(bill.getOrderDetailId())) return availableBill;
+
+        OrderDetails orderDetails = orderDetailService.getOrderDetails(bill.getOrderDetailId());
+
+        if(orderDetails==null) throw new OrderException("Invalid order id : "+bill.getOrderDetailId());
+
+        bill.setTotalCost(getTotalCost(orderDetails.getFoodCart().getItems()));
+        bill.setTotalItem(getTotalItem(orderDetails.getFoodCart().getItems()));
+        bill.setTimeSpan(LocalDateTime.now());
+
+        Bill savedBill = billRepository.save(bill);
 
         return billRepository.save(bill);
 
@@ -72,7 +90,6 @@ public class BillServiceImpl implements BillService{
     public List<BillDTO> viewBillByDate(LocalDateTime startDate, LocalDateTime endDate) {
 
         List<Bill> bills = billRepository.findBillBetweenDates(startDate, endDate);
-
         if(bills.isEmpty()) throw new BillException("Bills not found");
 
         List<BillDTO> billDTOS = new ArrayList<>();
@@ -90,11 +107,9 @@ public class BillServiceImpl implements BillService{
     public List<BillDTO> viewBillOfUser(Integer userId) {
 
         FoodCart foodCart = cartService.getFoodCartByUserId(userId);
-
         if(foodCart==null) throw new RuntimeException("Invalid user id : "+userId);
 
         List<OrderDetails> orderDetails = orderDetailService.getOrderByCartId(foodCart.getCartId());
-
         if(orderDetails.isEmpty()) throw new BillException("Orders not found");
 
         List<BillDTO> bills = new ArrayList<>();
@@ -102,7 +117,6 @@ public class BillServiceImpl implements BillService{
         orderDetails.stream().forEach((el)->{
 
             Bill bill = billRepository.findByOrderDetailId(el.getOrderId()).orElseThrow(()-> new BillException("Invalid order id "+el.getOrderId()));
-
             bills.add(convertBillDTO(bill));
 
         });
@@ -118,40 +132,31 @@ public class BillServiceImpl implements BillService{
 
     private BillDTO convertBillDTO(Bill bill){
 
+        OrderDetails orderDetails = orderDetailService.getOrderDetails(bill.getOrderDetailId());
+
+        if(orderDetails==null) throw new OrderException("Invalid order id : "+bill.getOrderDetailId());
+
         BillDTO billDTO = new BillDTO();
 
         billDTO.setBillId(bill.getBillId());
-
         billDTO.setTimeSpan(bill.getTimeSpan());
-
-        OrderDetails orderDetails = orderDetailService.getOrderDetails(bill.getOrderDetailId());
-
-        if(orderDetails==null) throw new OrderException("No order found");
-
-        if(orderDetails==null){
-            throw new OrderException("Order does not exists with order id : "+bill.getOrderDetailId());
-        }
-
         billDTO.setOrderDetails(orderDetails);
-
-        billDTO.setTotalCost(getTotalCost(orderDetails));
-
-        billDTO.setTotalItem(orderDetails.getFoodCart().getItems().size());
+        billDTO.setTotalCost(bill.getTotalCost());
+        billDTO.setTotalItem(bill.getTotalItem());
 
         return billDTO;
 
-
-
     }
 
-    private Double getTotalCost(OrderDetails orderDetails){
+    private Integer getTotalItem(List<Item> items){ return items.stream().mapToInt(Item::getQuantity).reduce(0,(sum1,sum2)->sum1+sum2);}
 
-        List<Item> items = orderDetails.getFoodCart().getItems();
+
+    private Double getTotalCost(List<Item> items){
 
         Double totalCost=0d;
 
         for(Item item : items){
-            totalCost+=item.getCost();
+            totalCost+=item.getCost()* item.getQuantity();
         }
 
         return totalCost;

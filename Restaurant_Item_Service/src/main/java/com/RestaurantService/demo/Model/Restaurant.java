@@ -34,4 +34,16 @@ public class Restaurant {
     @ManyToMany(mappedBy = "restaurants")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Item> items = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "restaurantId=" + restaurantId +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", addressId=" + addressId +
+                ", managerName='" + managerName + '\'' +
+                ", contact='" + contact + '\'' +
+                ", items=" + items +
+                '}';
+    }
 }

@@ -33,4 +33,13 @@ public class Item {
     @JsonIgnore
     private List<Restaurant> restaurants = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", categoryId=" + categoryId +
+                ", cost=" + cost +
+                '}';
+    }
 }

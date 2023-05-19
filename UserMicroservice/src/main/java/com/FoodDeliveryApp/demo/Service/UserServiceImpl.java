@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService{
     CartService cartService;
 
     @Override
+    @Transactional
     public UserDTO registerUser(UserDTO userDTO) throws UserException {
 
         Optional<User> availableUserOpt = userRepository.findByEmail(userDTO.getEmail());
@@ -100,11 +101,11 @@ public class UserServiceImpl implements UserService{
 
         User user = validateUserById(userId);
 
-        userRepository.delete(user);
-
         cartService.removeCart(user.getFoodCartId());
 
         adressService.deleteAddress(user.getAddressId());
+
+        userRepository.delete(user);
 
         return user;
     }

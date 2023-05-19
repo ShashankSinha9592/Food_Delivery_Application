@@ -10,21 +10,19 @@ import com.RestaurantService.demo.Model.Item;
 import com.RestaurantService.demo.Model.Restaurant;
 import com.RestaurantService.demo.Repository.ItemRepository;
 import com.RestaurantService.demo.Repository.RestaurantRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class RestaurantServiceImpl implements RestaurantService{
 
     @Autowired
     RestaurantRepository restaurantRepository;
-
-    @Autowired
-    RestTemplate restTemplate;
 
     @Autowired
     ItemRepository itemRepository;
@@ -32,10 +30,13 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    AddressService addressService;
+
     @Override
     public RestaurantsInItemDTO addRestaurant(RestaurantsInItemDTO restaurantDTO) {
 
-        Address address = restTemplate.postForObject("http://ADDRESS-SERVICE/fooddelivery/address", restaurantDTO.getAddress(), Address.class);
+        Address address = addressService.saveAddress(restaurantDTO.getAddress());
 
         Restaurant restaurant = new Restaurant();
 
@@ -66,7 +67,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 
         Restaurant savedRestaurant = validateRestaurant(restaurantId);
 
-        restTemplate.delete("http://ADDRESS-SERVICE/fooddelivery/"+savedRestaurant.getAddressId());
+        addressService.deleteAddress(savedRestaurant.getAddressId());
 
         restaurantRepository.delete(savedRestaurant);
 
@@ -97,8 +98,6 @@ public class RestaurantServiceImpl implements RestaurantService{
 
         return restaurantDTO;
 
-//        return validateRestaurant(restaurantId);
-
     }
 
     @Override
@@ -114,13 +113,17 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public List<RestaurantsInItemDTO> viewRestaurantByItem(Integer itemId) {
 
-        itemRepository.findById(itemId).orElseThrow(()-> new ItemException("Invalid item id : "+itemId));
+        Item item = itemRepository.findById(itemId).orElseThrow(()-> new ItemException("Invalid item id : "+itemId));
 
-        List<RestaurantsInItemDTO> restaurants = new ArrayList<>(); // restaurantRepository.getRestaurantsByItem(itemId);
+        List<RestaurantsInItemDTO> restaurantsDto = new ArrayList<>(); // restaurantRepository.getRestaurantsByItem(itemId);
+
+        List<Restaurant> restaurants = item.getRestaurants();
 
         if(restaurants.isEmpty()) throw new RestaurantException("No restaurant found");
 
-        return restaurants;
+        restaurants.stream().forEach((restaurant -> restaurantsDto.add(getDTOFromRestaurant(restaurant))));
+
+        return restaurantsDto;
 
     }
 
@@ -155,7 +158,8 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     private Address validateAddress(Integer addressId){
-        Address address = restTemplate.getForObject("http://ADDRESS-SERVICE/fooddelivery/"+addressId, Address.class);
+
+        Address address = addressService.getAddress(addressId);
 
         if(address==null) throw new RuntimeException("Invalid address id : "+addressId);
 

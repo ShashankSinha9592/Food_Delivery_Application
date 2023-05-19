@@ -4,6 +4,11 @@ import com.FoodDeliveryApp.demo.DTO.UserDTO;
 import com.FoodDeliveryApp.demo.Model.FoodCart;
 import com.FoodDeliveryApp.demo.Model.User;
 import com.FoodDeliveryApp.demo.Service.UserService;
+import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping
+    @CircuitBreaker(name = "AddressAndCartCircuitBreaker")
+    @Retry(name = "RetryModule", fallbackMethod = "fallBackRetryHandler")
+    @RateLimiter(name = "RateLimiterHandler")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO){
 
         UserDTO registeredUserDTO = userService.registerUser(userDTO);
@@ -28,6 +36,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    @CircuitBreaker(name = "AddressCircuitBreaker")
+    @Retry(name = "RetryModule", fallbackMethod = "fallBackRetryHandler")
+    @RateLimiter(name = "RateLimiterHandler")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Integer userId){
 
         UserDTO userDTO = userService.viewUser(userId);
@@ -37,6 +48,7 @@ public class UserController {
     }
 
     @GetMapping
+    @RateLimiter(name = "RateLimiterHandler")
     public ResponseEntity<List<User>> getAllUsers(){
 
         List<User> users = userService.viewAllUser();
@@ -46,6 +58,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
+    @CircuitBreaker(name = "AddressAndCartCircuitBreaker")
+    @Retry(name = "RetryModule", fallbackMethod = "fallBackRetryHandler")
+    @RateLimiter(name = "RateLimiterHandler")
     public ResponseEntity<User> removeUser(@PathVariable Integer userId){
 
         User user = userService.removeUser(userId);
@@ -54,7 +69,14 @@ public class UserController {
 
     }
 
+    public ResponseEntity<String> fallBackRetryHandler(FeignException exc){
+        System.out.println(exc);
+        return new ResponseEntity<>("All retries have been exhausted, please try again later", HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+
     @PutMapping
+    @RateLimiter(name = "RateLimiterHandler")
     public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO){
 
         User updatedUser = userService.updateUser(userDTO);

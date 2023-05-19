@@ -1,5 +1,6 @@
 package com.RestaurantService.demo.Service;
 
+import com.RestaurantService.demo.DTO.ItemDTO;
 import com.RestaurantService.demo.DTO.ItemsInRestaurantDTO;
 import com.RestaurantService.demo.Model.Item;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface ItemService {
 
-    public ItemsInRestaurantDTO addItem(Item item);
+    public ItemsInRestaurantDTO addItem(ItemDTO itemDTO);
 
     public ItemsInRestaurantDTO viewItem(Integer itemId);
 

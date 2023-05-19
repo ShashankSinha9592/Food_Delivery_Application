@@ -53,9 +53,16 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Category viewCategory(Integer categoryId) {
+    public Category viewCategoryById(Integer categoryId) {
 
         return categoryRepository.findById(categoryId).orElseThrow(()-> new CategoryException("Category does not exists with category id : "+categoryId));
+
+    }
+
+    @Override
+    public Category viewCategoryByName(String categoryName) {
+
+        return categoryRepository.findByCategoryName(categoryName).orElseThrow(()-> new CategoryException("Category does not exists with category name : "+categoryName));
 
     }
 

@@ -78,14 +78,10 @@ public class FoodCartServiceImpl implements FoodCartService{
 
         FoodCart foodCart = validateCart(cartId);
 
-        System.out.println("1");
         List<Item> items = foodCart.getItems();
 
-        System.out.println("2");
-
-        System.out.println(3);
        Boolean isPresent = items.stream().anyMatch((item)-> item.getItemId()== itemId);
-        System.out.println("3");
+
         if(isPresent) throw new CartException("Item already present in the cart");
 
         Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
@@ -97,15 +93,17 @@ public class FoodCartServiceImpl implements FoodCartService{
         Optional<ItemDTO> itemOpt = restaurantItems.stream().filter((el)-> el.getItemId()==itemId).findAny();
 
         if(itemOpt.isEmpty()) throw new RestaurantException("item does not exists in this restaurant");
-        System.out.println("4");
+
         ItemDTO itemDTO = itemOpt.get();
 
         itemDTO.setRestaurant(restaurant);
 
         itemDTO.setFoodCart(foodCart);
 
+        itemDTO.setQuantity(1);
+
         Item savedItem = itemService.addItem(itemDTO);
-        System.out.println("5");
+
         foodCart.getItems().add(savedItem);
 
         return foodCartRepository.save(foodCart);
@@ -121,11 +119,11 @@ public class FoodCartServiceImpl implements FoodCartService{
 
         Optional<Item> itemOpt = items.stream().filter((el)-> el.getItemId()==itemId).findAny();
 
-        if(itemOpt.isPresent()) throw new RuntimeException("item does not exists with item id : "+itemId);
+        if(!itemOpt.isPresent()) throw new RuntimeException("item does not exists with item id : "+itemId);
 
         Item savedItem = itemOpt.get();
 
-        savedItem.setQuantity(quantity);
+        savedItem.setQuantity(quantity+ savedItem.getQuantity());
 
         itemRepository.save(savedItem);
 

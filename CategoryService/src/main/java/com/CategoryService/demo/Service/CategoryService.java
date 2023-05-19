@@ -12,7 +12,9 @@ public interface CategoryService {
 
     public Category removeCategory(Integer categoryId);
 
-    public Category viewCategory(Integer categoryId);
+    public Category viewCategoryById(Integer categoryId);
+
+    public Category viewCategoryByName(String categoryName);
 
     public List<Category> viewAllCategory();
 
